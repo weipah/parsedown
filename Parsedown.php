@@ -74,6 +74,15 @@ class Parsedown
     }
 
     protected $urlsLinked = true;
+	
+	function setTargetBlank($hrefTargetBlank)
+    {
+        $this->hrefTargetBlank = $hrefTargetBlank;
+
+        return $this;
+    }
+	
+	protected $hrefTargetBlank = false;
 
     #
     # Lines
@@ -1254,7 +1263,9 @@ class Parsedown
         }
 
         $Element['attributes']['href'] = str_replace(array('&', '<'), array('&amp;', '&lt;'), $Element['attributes']['href']);
-
+		if ($this->hrefTargetBlank) {
+			$Element['attributes']['target'] = "_blank";
+		}
         return array(
             'extent' => $extent,
             'element' => $Element,
